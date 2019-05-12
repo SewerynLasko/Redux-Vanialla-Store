@@ -31,9 +31,29 @@ button.addEventListener(
   false
 );
 
+store.subscribe(printStateToConsole);
+store.subscribe(renderToDosToScreen);
+// Subscribe to store changes (on each change passed function will be called)
+
+function printStateToConsole(state) {
+  console.log('STATE:::', state);
+}
+
+function renderToDosToScreen(state) {
+  renderTodos(state.todos.data);
+}
+
 todoList.addEventListener('click', function(event) {
   const target = event.target as HTMLButtonElement;
   if (target.nodeName.toLowerCase() === 'button') {
     console.log(target);
   }
 });
+
+destroy.addEventListener(
+  'click',
+  function(event) {
+    store.unsubscribe(renderToDosToScreen);
+  },
+  false
+);

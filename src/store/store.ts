@@ -4,6 +4,7 @@ export class Store {
   private state: { [key: string]: any };
 
   constructor(reducers = {}, initialState = {}) {
+    this.subscribers = [];
     this.reducers = reducers;
     this.state = this.reduce(initialState, {});
   }
@@ -12,11 +13,28 @@ export class Store {
     return this.state;
   }
 
+  subscribe(func) {
+    this.subscribers = [...this.subscribers, func];
+    this.notify();
+  }
+
+  unsubscribe(func) {
+    this.subscribers = this.subscribers.filter(funcInSubscribers => funcInSubscribers !== func);
+  }
+
   dispatch(action) {
     this.state = this.reduce(this.state, action);
     // We want to update the this.state object by calling a reduce function
     // which will iterate then through our reducers passing the current state and dispatched action.
     // The reducers will compose a new state which will be rebounded to this.state object.
+    this.notify();
+  }
+
+  private notify() {
+    this.subscribers.forEach(func => {
+      func(this.value);
+    });
+    // Earch subscribe is a function. On notify we will loop through all this functions and call then with passed state
   }
 
   private reduce(state, action) {
