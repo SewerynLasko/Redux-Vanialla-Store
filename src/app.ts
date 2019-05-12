@@ -7,12 +7,11 @@ const button = document.querySelector('button') as HTMLButtonElement;
 const destroy = document.querySelector('.unsubscribe') as HTMLButtonElement;
 const todoList = document.querySelector('.todos') as HTMLLIElement;
 
-const store = new fromStore.Store(
-  {},
-  {
-    todos: [{ label: 'Eat pizza', complete: false }]
-  }
-);
+const reducers = {
+  todos: fromStore.reducer // This is a toDoReducer. For the property todos we use a function fromStore.reducer
+};
+
+const store = new fromStore.Store(reducers);
 
 button.addEventListener(
   'click',
