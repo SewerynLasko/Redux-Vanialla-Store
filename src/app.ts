@@ -10,20 +10,22 @@ const todoList = document.querySelector('.todos') as HTMLLIElement;
 const store = new fromStore.Store(
   {},
   {
-    todos: [{ label: 'Eat pizza', complete: false }],
+    todos: [{ label: 'Eat pizza', complete: false }]
   }
 );
-
-console.log(store.value);
 
 button.addEventListener(
   'click',
   () => {
-    if (!input.value.trim()) return;
+    if (!input.value.trim()) {
+      return;
+    }
 
     const payload = { label: input.value, complete: false };
-
-    console.log(payload);
+    store.dispatch({
+      type: 'ADD_TODO',
+      payload: payload
+    });
 
     input.value = '';
   },

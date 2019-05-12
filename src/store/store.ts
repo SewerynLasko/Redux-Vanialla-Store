@@ -10,4 +10,12 @@ export class Store {
   get value() {
     return this.state;
   }
+
+  dispatch(action) {
+    this.state = {
+      ...this.state, // merge in this.state to brand new state object that we just created
+      todos: [...this.state.todos, action.payload] // overwrite it with our changes
+    };
+    console.log(this.state);
+  }
 }
